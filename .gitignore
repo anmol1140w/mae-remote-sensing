@@ -26,7 +26,10 @@ venv/
 
 # Logs and other outputs
 *.log
-outputs/
+outputs/**/*.pt
+outputs/**/*.pth
+outputs/**/*.log
+outputs/**/tensorboard/
 
 # Jupyter Notebook / IPython
 .ipynb_checkpoints
