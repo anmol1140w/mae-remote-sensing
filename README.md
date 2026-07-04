@@ -36,7 +36,7 @@ The code automatically handles the splitting of the dataset into training, valid
 To set up the environment, clone the repository and install the required dependencies:
 
 ```bash
-git clone https://github.com/your_username/mae-remote-sensing.git
+git clone https://github.com/anmol1140w/mae-remote-sensing.git
 cd mae-remote-sensing
 pip install -r requirements.txt
 ```
@@ -90,11 +90,44 @@ Evaluation metrics include Accuracy, Precision, Recall, F1 Score, and Confusion 
 
 ## Results
 
-(This section will be populated with actual training curves, reconstruction examples, and classification metrics after running experiments.)
+| Stage | Metric | Start | Best | Final |
+|-------|--------|-------|------|-------|
+| Pre-training (100 epochs) | Val Loss | 0.4457 | 0.2432 | 0.2432 |
+| Fine-tuning (50 epochs) | Val Accuracy | 64.78% | 95.04% (epoch 36) | 95.04% |
+| Fine-tuning (50 epochs) | Val Loss | 0.9805 | 0.2034 | 0.2239 |
 
-## Example Reconstructions
+### Pre-training Loss
 
-(This section will contain visualizations of original, masked, and reconstructed images from the MAE pre-training phase.)
+Validation loss drops from 0.4457 to 0.2432 over 100 epochs of masked reconstruction on unlabeled EuroSAT images.
+
+![Pre-training Loss](outputs/mae_eurosat_v1/visualizations/pretrain_loss.png)
+
+### Fine-tuning Curves
+
+After loading the pre-trained encoder, classification accuracy rises from 64.78% to **95.04%** (best at epoch 36).
+Validation loss improves from 0.9805 to a best of 0.2034.
+
+![Fine-tuning Curves](outputs/mae_eurosat_v1/visualizations/finetune_curves.png)
+
+### Example Reconstructions
+
+The model learns to reconstruct masked patches progressively.
+Below is the final reconstruction snapshot (epoch 90) and the full progression across training.
+
+**Best reconstruction (epoch 90)**
+
+![Best Reconstruction](outputs/mae_eurosat_v1/pretrain/vis_epoch_90.png)
+
+**Reconstruction progression (epochs 0–90)**
+
+![Reconstruction Progression](outputs/mae_eurosat_v1/visualizations/reconstruction_grid.png)
+
+### Feature Embeddings (t-SNE)
+
+t-SNE projection of fine-tuned encoder features on the test set.
+Clusters align well with the 10 EuroSAT land cover classes.
+
+![t-SNE Embeddings](outputs/tsne.png)
 
 ## Future Improvements
 
