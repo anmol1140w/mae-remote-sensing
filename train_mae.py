@@ -52,9 +52,19 @@ def main(args):
     optimizer = torch.optim.AdamW(param_groups, lr=config['pretrain']['base_lr'], weight_decay=config['pretrain']['weight_decay'])
     
     # Trainer
-    trainer = Pretrainer(model, criterion, config['pretrain'], output_dir)
-    trainer.config['mask_ratio'] = config['model']['mask_ratio']
-    trainer.config['vis_freq'] = config['vis']['save_freq']
+    trainer_config = {
+        **config["pretrain"],
+        "device": config["device"],
+        "seed": config["seed"],
+        "mask_ratio": config["model"]["mask_ratio"],
+        "vis_freq": config["vis"]["save_freq"],
+    }
+    trainer = Pretrainer(
+        model,
+        criterion,
+        trainer_config,
+        output_dir,
+    )
     
     # Start training
     trainer.fit(train_loader, val_loader, optimizer)

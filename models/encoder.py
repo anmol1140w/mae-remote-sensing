@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from typing import Optional
+from typing import Optional, Tuple
 from .patch_embedding import PatchEmbedding
 from .transformer_block import TransformerBlock
 

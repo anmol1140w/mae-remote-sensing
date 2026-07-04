@@ -2,8 +2,8 @@ import torch
 from torch.utils.tensorboard import SummaryWriter
 import os
 from tqdm import tqdm
-from ..utils.logger import setup_logger
-from ..utils.checkpoint import save_checkpoint
+from utils.logger import setup_logger
+from utils.checkpoint import save_checkpoint
 
 class BaseTrainer:
     """
@@ -33,7 +33,7 @@ class BaseTrainer:
             self.logger.info(f"Epoch {epoch}/{self.config['epochs']}")
             
             train_stats = self.train_one_epoch(train_loader, optimizer, epoch)
-            val_stats = self.validate(val_loader, epoch)
+            val_stats = self.validate(val_loader, optimizer, epoch)
             
             if scheduler:
                 scheduler.step()

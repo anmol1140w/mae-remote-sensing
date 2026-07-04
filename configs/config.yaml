@@ -37,8 +37,8 @@ model:
 pretrain:
   epochs: 100
   warmup_epochs: 10
-  base_lr: 1.5e-4
-  min_lr: 1e-5
+  base_lr: 0.00015
+  min_lr: 0.00001
   weight_decay: 0.05
   clip_grad: 1.0
 
@@ -46,8 +46,8 @@ pretrain:
 finetune:
   epochs: 50
   warmup_epochs: 5
-  base_lr: 5e-4
-  min_lr: 1e-6
+  base_lr: 0.0005
+  min_lr: 0.000001
   weight_decay: 0.05
   layer_decay: 0.75
   drop_path: 0.1

@@ -3,9 +3,9 @@ import torch.nn as nn
 from tqdm import tqdm
 import os
 from .trainer import BaseTrainer
-from ..utils.metrics import AverageMeter, calculate_metrics
-from ..utils.checkpoint import save_checkpoint
-from ..optim.scheduler import adjust_learning_rate
+from utils.metrics import AverageMeter, calculate_metrics
+from utils.checkpoint import save_checkpoint
+from optim.scheduler import adjust_learning_rate
 
 class Finetuner(BaseTrainer):
     """
@@ -50,7 +50,7 @@ class Finetuner(BaseTrainer):
         return {'loss': losses.avg, 'acc': accs.avg}
 
     @torch.no_grad()
-    def validate(self, val_loader, epoch):
+    def validate(self, val_loader, optimizer, epoch):
         self.model.eval()
         losses = AverageMeter()
         all_preds = []
@@ -81,7 +81,9 @@ class Finetuner(BaseTrainer):
         save_checkpoint({
             'epoch': epoch + 1,
             'state_dict': self.model.state_dict(),
-            'best_acc': self.best_acc,
+            "optimizer": optimizer.state_dict(),
+            'best_loss': self.best_metric,
+            "config": self.config,
         }, is_best, self.output_dir)
         
         return metrics

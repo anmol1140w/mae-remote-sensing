@@ -60,7 +60,9 @@ def main(args):
     optimizer = torch.optim.AdamW(model.parameters(), lr=config['finetune']['base_lr'], weight_decay=config['finetune']['weight_decay'])
     
     # Trainer
-    trainer = Finetuner(model, criterion, config['finetune'], output_dir)
+    finetune_config = config["finetune"].copy()
+    finetune_config["device"] = config["device"]
+    trainer = Finetuner(model, criterion, finetune_config, output_dir)
     
     # Start training
     trainer.fit(train_loader, val_loader, optimizer)

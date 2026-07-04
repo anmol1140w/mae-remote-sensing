@@ -3,10 +3,10 @@ import torch.nn as nn
 from tqdm import tqdm
 import os
 from .trainer import BaseTrainer
-from ..utils.metrics import AverageMeter
-from ..utils.checkpoint import save_checkpoint
-from ..utils.visualization import visualize_reconstruction
-from ..optim.scheduler import adjust_learning_rate
+from utils.metrics import AverageMeter
+from utils.checkpoint import save_checkpoint
+from utils.visualization import visualize_reconstruction
+from optim.scheduler import adjust_learning_rate
 
 class Pretrainer(BaseTrainer):
     """
@@ -50,7 +50,7 @@ class Pretrainer(BaseTrainer):
         return {'loss': losses.avg}
 
     @torch.no_grad()
-    def validate(self, val_loader, epoch):
+    def validate(self, val_loader, optimizer, epoch):
         self.model.eval()
         losses = AverageMeter()
         
@@ -78,7 +78,9 @@ class Pretrainer(BaseTrainer):
         save_checkpoint({
             'epoch': epoch + 1,
             'state_dict': self.model.state_dict(),
+            "optimizer": optimizer.state_dict(),
             'best_loss': self.best_metric,
+            "config": self.config,
         }, is_best, self.output_dir)
         
         return {'loss': losses.avg}
