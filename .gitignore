@@ -28,9 +28,6 @@ venv/
 *.log
 outputs/
 
-# Datasets
-datasets/
-
 # Jupyter Notebook / IPython
 .ipynb_checkpoints
 
